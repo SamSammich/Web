@@ -1,8 +1,10 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
+import time
+from urllib.parse import urlparse, parse_qs
 
 # Для начала определим настройки запуска
 hostName = "localhost"  # Адрес для доступа по сети
-serverPort = 8081  # Порт для доступа по сети
+serverPort = 8080  # Порт для доступа по сети
 
 
 class MyServer(BaseHTTPRequestHandler):
@@ -11,14 +13,20 @@ class MyServer(BaseHTTPRequestHandler):
         обработку входящих запросов от клиентов
     """
 
+    def get_html_content(self):
+        with open('./index3.html', "r", encoding="utf-8") as file:
+            html_content = file.read()
+            return html_content
+
     def do_GET(self):
         """ Метод для обработки входящих GET-запросов """
-        with open('./index4.html', "r", encoding="utf-8") as file:
-            html_content = file.read()
+        query_components = parse_qs(urlparse(self.path).query)
+        print(query_components)
+        page_content = self.get_html_content()
         self.send_response(200)  # Отправка кода ответа
         self.send_header("Content-type", "text/html")  # Отправка типа данных, который будет передаваться
         self.end_headers()  # Завершение формирования заголовков ответа
-        self.wfile.write(bytes(html_content, "utf-8"))  # Тело ответа
+        self.wfile.write(bytes(f"{page_content}", "utf-8"))  # Тело ответа
 
 
 if __name__ == "__main__":

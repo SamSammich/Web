@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "Web"
+version = "0.1.0"
+description = ""
+authors = ["SamSammich <125561867+SamSammich@users.noreply.github.com>"]
+readme = "README.md"
+packages = [{include = "Web"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
